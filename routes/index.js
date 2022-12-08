@@ -3,8 +3,8 @@ const express = require('express');
 const router = express.Router();
 
 // setting up routes
-router.use('/', (req, res) => {
-    res.send('Parches pharmastore API v1');
-});
+router.get('/', (req, res) => res.send('Parches Pharmastore API v1'));
+
+router.use('/user', require('./user'));
 
 module.exports = router;
