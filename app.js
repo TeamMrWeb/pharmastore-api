@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // setting up routes
-app.use('/api/v1', require('./routes'));
+app.use('/v1', require('./routes'));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -37,8 +37,8 @@ app.use((err, req, res) => {
 });
 
 // running the server
-app.listen(app.get('port'), () => {
-    console.log(`Server is running on port ${app.get('port')}`);
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 });
 
 module.exports = app;
