@@ -5,6 +5,7 @@
     "main": "index.js",
     "scripts": {
         "dev": "nodemon app.js",
+        "db@test": "sequelize db:drop && sequelize db:create && sequelize db:migrate && sequelize db:seed:all",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [
@@ -20,6 +21,7 @@
         "express": "^4.18.2",
         "http-errors": "^2.0.0",
         "morgan": "^1.10.0",
+        "mysql2": "^2.3.3",
         "sequelize": "^6.25.8",
         "sequelize-cli": "^6.5.2"
     },
