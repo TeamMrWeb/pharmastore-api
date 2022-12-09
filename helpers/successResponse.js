@@ -5,7 +5,6 @@ module.exports = ({
     body,
     options
 }) => {
-    console.log('bien')
     res.status(code).json({
         code,
         message,
