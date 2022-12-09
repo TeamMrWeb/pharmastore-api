@@ -23,14 +23,16 @@ module.exports = {
       },
       email: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
       },
       avatar: {
         type: Sequelize.STRING,
       },
       telephone: {
-        type: Sequelize.INTEGER,
-        allowNull: false
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
       },
       roleId: {
         type: Sequelize.INTEGER,
