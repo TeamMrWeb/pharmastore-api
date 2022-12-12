@@ -2,6 +2,20 @@ require('dotenv').config()
 
 module.exports = {
     port: process.env.PORT || 3000,
+    tokens: {
+        accessToken: {
+            secret: process.env.ACCESS_TOKEN_SECRET,
+            expires: process.env.ACCESS_TOKEN_EXPIRES
+        },
+        refreshToken: {
+            secret: process.env.REFRESH_TOKEN_SECRET,
+            expires: process.env.REFRESH_TOKEN_EXPIRES
+        },
+        emailToken: {
+            secret: process.env.EMAIL_TOKEN_SECRET,
+            expires: process.env.EMAIL_TOKEN_EXPIRES
+        }
+    },
     development: {
         username: process.env.DATABASE_USER,
         password: process.env.DATABASE_PASSWORD,
