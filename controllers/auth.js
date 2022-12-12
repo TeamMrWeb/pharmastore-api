@@ -32,13 +32,15 @@ module.exports = {
             successResponse({
                 res,
                 message: 'User logged in successfully',
-                accessToken: {
-                    value: 'token',
-                    expiresIn: 0,
-                },
-                refreshToken: {
-                    value: 'token',
-                    expiresIn: 0,
+                body: {
+                    accessToken: {
+                        value: 'token',
+                        expires: 'date'
+                    },
+                    refrehToken: {
+                        value: 'token',
+                        expires: 'date'
+                    }
                 }
             });
         } catch (err) {
