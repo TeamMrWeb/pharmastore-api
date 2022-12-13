@@ -3,6 +3,7 @@ require('dotenv').config()
 module.exports = {
     port: process.env.PORT || 3000,
     tokens: {
+        secret: process.env.TOKEN_SECRET,
         accessToken: {
             secret: process.env.ACCESS_TOKEN_SECRET,
             expires: process.env.ACCESS_TOKEN_EXPIRES
