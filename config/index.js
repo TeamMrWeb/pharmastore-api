@@ -6,15 +6,15 @@ module.exports = {
         secret: process.env.TOKEN_SECRET,
         accessToken: {
             secret: process.env.ACCESS_TOKEN_SECRET,
-            expires: process.env.ACCESS_TOKEN_EXPIRES
+            expires: process.env.ACCESS_TOKEN_LIFE
         },
         refreshToken: {
             secret: process.env.REFRESH_TOKEN_SECRET,
-            expires: process.env.REFRESH_TOKEN_EXPIRES
+            expires: process.env.REFRESH_TOKEN_LIFE
         },
         emailToken: {
             secret: process.env.EMAIL_TOKEN_SECRET,
-            expires: process.env.EMAIL_TOKEN_EXPIRES
+            expires: process.env.EMAIL_TOKEN_LIFE
         }
     },
     development: {
