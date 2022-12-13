@@ -4,10 +4,11 @@ const successResponse = require('../helpers/successResponse');
 const errorObject = require('../helpers/errorObject');
 
 const userService = require('../services/user');
-const cryptService = require('../services/crypt');
+const authService = require('../services/auth');
 
 module.exports = {
     register: catchAsync(async (req, res, next) => {
+        // TODO: view if this method is correct here or should be in the user service
         try {
             const user = await userService.create(req.body);
             if (!user)
@@ -23,25 +24,11 @@ module.exports = {
     }),
     login: catchAsync(async (req, res, next) => {
         try {
-            const user = await userService.getByEmail(req.body.email);
-            if (!user)
-                throw new errorObject({ statusCode: 400, message: 'User not found' });
-            const isPasswordValid = await cryptService.comparePassword(req.body.password, user.password);
-            if (!isPasswordValid)
-                throw new errorObject({ statusCode: 400, message: 'Invalid credentials' });
+            const response = await authService.login(req.body.email, req.body.password);
             successResponse({
                 res,
                 message: 'User logged in successfully',
-                body: {
-                    accessToken: {
-                        value: 'token',
-                        expires: 'date'
-                    },
-                    refrehToken: {
-                        value: 'token',
-                        expires: 'date'
-                    }
-                }
+                body: response
             });
         } catch (err) {
             next(createHttpError(err.statusCode || 404,`[Error logging in] - [login - POST]: ${err.message}`))
