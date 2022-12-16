@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     categoryId: DataTypes.INTEGER
   }, {
     sequelize,
+    paranoid: true,
     modelName: 'Product',
   });
   return Product;
