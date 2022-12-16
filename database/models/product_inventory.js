@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     quantity: DataTypes.INTEGER
   }, {
     sequelize,
+    paranoid: true,
     modelName: 'product_inventory',
   });
   return product_inventory;

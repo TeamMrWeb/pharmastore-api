@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     blacklisted: DataTypes.BOOLEAN
   }, {
     sequelize,
+    paranoid: true,
     modelName: 'Token',
   });
   return Token;
