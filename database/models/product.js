@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
         Product.hasOne(models.product_category, { foreignKey: 'categoryId' });
+        Product.hasOne(models.product_discount, { foreignKey: 'discountId' });
     }
   }
   Product.init({

@@ -23,6 +23,10 @@ module.exports = {
       },
       discountId: {
         type: Sequelize.INTEGER,
+        references: {
+            model: 'product_discounts',
+            key: 'id'
+        }
       },
       categoryId: {
         type: Sequelize.INTEGER,
