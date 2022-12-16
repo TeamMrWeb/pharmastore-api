@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const moment = require('moment');
 
 const tokens = require('../config').tokens
 
@@ -8,7 +9,9 @@ module.exports = {
         expires,
         type,
         secret = tokens.secret
-    }) => {
-        return jwt.sign({... payload, expires: Date.now() + parseInt(expires), type}, secret)
-    },
-}
+    }) => jwt.sign({
+            ... payload,
+            expires: expires.unix(),
+            type
+        }, secret)
+}  
