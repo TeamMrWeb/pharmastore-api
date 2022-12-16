@@ -30,6 +30,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         unique: true
     },
+    isBetaMember: DataTypes.BOOLEAN,
+    isVerified: DataTypes.BOOLEAN,
     roleId: DataTypes.INTEGER
   }, {
     sequelize,
