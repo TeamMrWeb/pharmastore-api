@@ -18,6 +18,9 @@ module.exports = {
       blacklisted: {
         type: Sequelize.BOOLEAN
       },
+      expiresAt: {
+        type: Sequelize.DATE
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

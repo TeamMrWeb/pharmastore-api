@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
   Token.init({
     token: DataTypes.STRING,
     type: DataTypes.STRING,
-    blacklisted: DataTypes.BOOLEAN
+    blacklisted: DataTypes.BOOLEAN,
+    expiresAt: DataTypes.DATE
   }, {
     sequelize,
     paranoid: true,
