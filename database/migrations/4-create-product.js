@@ -20,6 +20,10 @@ module.exports = {
       },
       inventoryId: {
         type: Sequelize.INTEGER,
+        references: {
+            model: 'product_inventories',
+            key: 'id'
+        }
       },
       discountId: {
         type: Sequelize.INTEGER,
