@@ -34,6 +34,14 @@ module.exports = {
         allowNull: false,
         unique: true
       },
+      isBetaMember: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
+      isVerified: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
       roleId: {
         type: Sequelize.INTEGER,
         defaultValue: 1
