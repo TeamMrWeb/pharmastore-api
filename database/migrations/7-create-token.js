@@ -12,6 +12,13 @@ module.exports = {
       token: {
         type: Sequelize.STRING
       },
+      userId: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: 'Users',
+            key: 'id'
+        }
+      },
       type: {
         type: Sequelize.STRING
       },
