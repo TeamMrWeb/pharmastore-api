@@ -31,6 +31,21 @@ module.exports = {
             blacklisted,
             expiresAt: expires.toDate()
         });
-    }
+    },
 
+
+    generateNeccessaryTokens: async (userId) => {
+        const accessTokenEx = moment().add(parseInt(tokens.accessToken.expires), 'minutes')
+        const accessToken = module.exports.generateToken({ userId, expires: accessTokenEx, type: 'access' });
+        await module.exports.saveToken({ token: accessToken, userId, expires: accessTokenEx, type: 'access' });
+
+        const refreshTokenEx = moment().add(parseInt(tokens.refreshToken.expires), 'days')
+        const refreshToken = module.exports.generateToken({ userId, expires: refreshTokenEx, type: 'refresh' });
+        await module.exports.saveToken({ token: refreshToken, userId, expires: refreshTokenEx, type: 'refresh' });
+
+        return {
+            access: { token: accessToken, expires: accessTokenEx.toDate() },
+            refresh: { token: refreshToken, expires: refreshTokenEx.toDate() }
+        }
+    }
 }  
