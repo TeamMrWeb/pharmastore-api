@@ -9,7 +9,7 @@ module.exports = {
             description: 'Shampoo for hair!!',
             price: 100,
             categoryId: 1,
-            inventoryId: 1,
+            inventoryId: 0,
             // discountId: 1, // NOTE: use the product-discount seeder to make a relationship between products and discounts
             createdAt: new Date(),
             updatedAt: new Date(),
@@ -19,7 +19,7 @@ module.exports = {
             description: 'Toothbrush',
             price: 100,
             categoryId: 2,
-            inventoryId: 2,
+            inventoryId: 0,
             // discountId: 1, // NOTE: use the product-discount seeder to make a relationship between products and discounts
             createdAt: new Date(),
             updatedAt: new Date(),
