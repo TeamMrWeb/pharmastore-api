@@ -21,6 +21,10 @@ module.exports = {
       price: {
         type: Sequelize.INTEGER
       },
+      rating: {
+        type: Sequelize.INTEGER,
+        validate: { min: 0, max: 4 }
+      },
       inventoryId: {
         type: Sequelize.INTEGER,
         references: {
