@@ -23,5 +23,23 @@ module.exports = {
         } catch (err) {
             next(createHttpError(err.statusCode,`[Error retrieving users] - [users - GET]: ${err.message}`))
         }
+    }),
+    getOne: catchAsync(async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            if (!id) throw new errorObject({ statusCode: 400, message: 'User ID is required' });
+            const user = await userService.getOne(id);
+            if (!user) throw new errorObject({ statusCode: 404, message: 'User not found' });
+            successResponse({
+                res,
+                message: 'Users fetched successfully',
+                body: {
+                    user
+                }
+            });
+        } catch (err) {
+            console.log(err)
+            next(createHttpError(err.statusCode,`[Error retrieving user] - [user - GET]: ${err.message}`))
+        }
     })
 }
