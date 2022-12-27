@@ -27,24 +27,12 @@ module.exports = {
       },
       inventoryId: {
         type: Sequelize.INTEGER,
-        references: {
-            model: 'product_inventories',
-            key: 'id'
-        }
       },
       discountId: {
         type: Sequelize.INTEGER,
-        references: {
-            model: 'product_discounts',
-            key: 'id'
-        }
       },
       categoryId: {
         type: Sequelize.INTEGER,
-        references: {
-            model: 'product_categories',
-            key: 'id'
-        }
       },
       createdAt: {
         allowNull: false,
