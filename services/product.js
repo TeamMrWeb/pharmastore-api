@@ -27,4 +27,8 @@ module.exports = {
     },
     create: async (payload) => await Product.create(payload),
     findCategoryById: async (id) => await product_category.findByPk(id),
+    findInventoryById: async (id) => await product_inventory.findByPk(id),
+    findDiscountById: async (id) => await product_discount.findByPk(id),
+
+
 }
