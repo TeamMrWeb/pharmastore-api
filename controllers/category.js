@@ -18,5 +18,16 @@ module.exports = {
             console.log(err)
             next(createHttpError(err.statusCode,`[Error retrieving categories] - [categories - GET]: ${err.message}`))
         }
-    })
+    }),
+    categoryIdExists: async (id) => {
+        try{
+            const categoryId = await categoryService.findCategoryById(id);
+            if(!categoryId) throw new errorObject({ statusCode: 404, message: 'CategoryId doesnt exists' });
+        } catch(err) {
+            //console.log(err);
+            return err;
+        }
+        
+    }
+    
 }
