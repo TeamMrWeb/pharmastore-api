@@ -32,8 +32,16 @@ module.exports = {
         try {
             const payload = req.body;
             console.log(payload);
-            const category = await productService.findCategoryById(payload.categoryId)
-            if(!category) throw new errorObject({ statusCode: 404, message: 'CategoryId doesnt exists' });
+            //verifications
+            const categoryId = await productService.findCategoryById(payload.categoryId)
+            if(!categoryId) throw new errorObject({ statusCode: 404, message: 'CategoryId doesnt exists' });
+            
+            const inventoryId = await productService.findCategoryById(payload.inventoryId)
+            if(!inventoryId) throw new errorObject({ statusCode: 404, message: 'InventoryId doesnt exists' });
+            
+            const discountId = await productService.findCategoryById(payload.discountId)
+            if(!discountId) throw new errorObject({ statusCode: 404, message: 'DiscountId doesnt exists' });
+            //
             const product = await productService.create(payload);
 
             successResponse({
