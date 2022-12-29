@@ -1,5 +1,10 @@
 const { Product, product_category, product_inventory, product_discount } = require('../database/models');
 const { Op } = require('sequelize');
+const errorObject = require('../helpers/errorObject');
+
+const categoryService = require('./category');
+const inventoryService = require('./inventory');
+const discountService = require('./discount');
 
 module.exports = {
     get: async({ page = 0, limit = 10, category, rating }) => {
@@ -25,5 +30,17 @@ module.exports = {
             limit: limit
         })
     },
-    create: async (payload) => await Product.create(payload)
+    create: async (payload) => await Product.create(payload),
+    validateProduct: async (payload) => {
+        try{
+            const categoryId = await categoryService.findCategoryById(payload.categoryId);
+            if(!categoryId) throw new Error('CategoryId doesnt exists');
+            const inventoryId = await inventoryService.findInventoryById(payload.inventoryId);
+            if(!inventoryId) throw new Error('InventoryId doesnt exists');
+            const discountId = await discountService.findDiscountById(payload.discountId);
+            if(!discountId) throw new Error('DiscountId doesnt exists');
+                } catch(err) {
+            throw new errorObject({ statusCode: 404, message: err.message });
+        }
+    }
 }
