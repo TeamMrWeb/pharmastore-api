@@ -4,7 +4,9 @@ const catchAsync = require('../helpers/catchAsync');
 const successResponse = require('../helpers/successResponse');
 
 const productService = require('../services/product');
-const { findCategoryById } = require('../services/product');
+const categoryControllers = require('./category');
+const inventoryControllers = require('./inventory');
+const discountControllers = require('./discount');
 
 module.exports = {
     getProducts: catchAsync(async (req, res, next) => {
@@ -33,15 +35,16 @@ module.exports = {
             const payload = req.body;
             console.log(payload);
             //verifications
-            const categoryId = await productService.findCategoryById(payload.categoryId)
-            if(!categoryId) throw new errorObject({ statusCode: 404, message: 'CategoryId doesnt exists' });
-            
-            const inventoryId = await productService.findCategoryById(payload.inventoryId)
-            if(!inventoryId) throw new errorObject({ statusCode: 404, message: 'InventoryId doesnt exists' });
-            
-            const discountId = await productService.findCategoryById(payload.discountId)
-            if(!discountId) throw new errorObject({ statusCode: 404, message: 'DiscountId doesnt exists' });
-            //
+            const categoryIdExists = await categoryControllers.categoryIdExists(payload.categoryId);
+            console.log(categoryIdExists);
+            if(categoryIdExists != undefined) throw categoryIdExists;
+
+            const inventoryIdExists = await inventoryControllers.inventoryIdExists(payload.inventoryId);
+            if(inventoryIdExists != undefined) throw inventoryIdExists;
+
+            const discountIdExists = await discountControllers.discountIdExists(payload.discountId);
+            if(discountIdExists != undefined) throw discountIdExists;
+
             const product = await productService.create(payload);
 
             successResponse({
