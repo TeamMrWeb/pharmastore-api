@@ -60,6 +60,7 @@ module.exports = {
                 else if (method === 'PUT' && !payload[attr])
                     throw new errorObject({ statusCode: 400, message: `Attribute ${attr} is required` });      
             })
+            if (method === 'PUT') payload = req.body;
             if (Object.keys(payload).length === 0) throw new errorObject({ statusCode: 400, message: 'No valid attributes provided' });
             const user = await userService.update(id, payload);
             if (!user) throw new errorObject({ statusCode: 404, message: 'User not found' });
