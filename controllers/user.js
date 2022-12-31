@@ -6,11 +6,16 @@ const successResponse = require('../helpers/successResponse');
 const userService = require('../services/user');
 
 module.exports = {
+    /**
+     * @description Get all users with pagination and filters by first name and last name
+     */
     get: catchAsync(async (req, res, next) => {
         try {
             const page = req.query.page || 0;
+            const firstName = req.query.firstName || '';
+            const lastName = req.query.lastName || '';
             if (page < 0) throw new errorObject({ statusCode: 400, message: 'Page cannot be less than 0' });
-            const results = await userService.get({ page });
+            const results = await userService.get({ page, firstName, lastName });
             successResponse({
                 res,
                 message: 'Users fetched successfully',
@@ -32,38 +37,12 @@ module.exports = {
             if (!user) throw new errorObject({ statusCode: 404, message: 'User not found' });
             successResponse({
                 res,
-                message: 'Users fetched successfully',
-                body: {
-                    user
-                }
+                message: 'User fetched successfully',
+                body: { user }
             });
         } catch (err) {
             console.log(err)
             next(createHttpError(err.statusCode,`[Error retrieving user] - [user - GET]: ${err.message}`))
         }
     }),
-    getFilterByName: catchAsync(async (req, res, next) => {
-        try {
-            const page = req.query.page || 0;
-            const firstName = req.query.firstName || null;
-            const lastName = req.query.lastName || null;
-            console.log(firstName, lastName);
-            if (page < 0) throw new errorObject({ statusCode: 400, message: 'Page cannot be less than 0' });
-            const results = await userService.getByName({ page, firstName, lastName });
-            //console.log("//",results);
-            //if (user !== Object) throw new errorObject({ statusCode: 404, message: 'User not found' });
-            successResponse({
-                res,
-                message: 'Users fetched successfully',
-                body: {
-                    products: results,
-                    previous: page > 0 ? `/v1/product?page=${parseInt(page) - 1}` : null,
-                    next: results.length > 0 ? `/v1/product?page=${parseInt(page)+1}` : null
-                }
-            });
-        } catch (err) {
-            console.log(err)
-            next(createHttpError(err.statusCode,`[Error retrieving products] - [products - GET]: ${err.message}`))
-        }
-    })
 }
