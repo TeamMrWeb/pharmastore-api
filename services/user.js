@@ -17,6 +17,8 @@ module.exports = {
                 lastName: { [Op.like]: `%${lastName}%` }
             }
         }),
+    getAttributes: async () => await Object.keys(User.rawAttributes),
+    update: async (id, payload) => await User.update(payload, { where: { id } }),
     getOne: async (id) => await User.findByPk(id, { attributes: { exclude: ['password'] }, include: { model: Roles, attributes: ['name'] }}),
     create: async (payload) => await User.create(payload),
     getAll: async () => await User.findAll({ attributes: { exclude: ['password'] } }),
