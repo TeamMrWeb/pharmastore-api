@@ -5,6 +5,7 @@ const successResponse = require('../helpers/successResponse');
 
 const productService = require('../services/product');
 
+
 module.exports = {
     getProducts: catchAsync(async (req, res, next) => {
         try {
@@ -25,6 +26,27 @@ module.exports = {
         } catch (err) {
             console.log(err)
             next(createHttpError(err.statusCode,`[Error retrieving products] - [products - GET]: ${err.message}`))
+        }
+    }),
+    postProducts: catchAsync(async (req, res, next) => {
+        try {
+            const payload = req.body;
+            console.log(payload);
+            //verifications
+           await productService.validateProduct(payload);
+
+            const product = await productService.create(payload);
+
+            successResponse({
+                res,
+                message: 'Products fetched successfully',
+                body: {
+                    result: product
+                }
+            });
+        } catch (err) {
+            console.log(err)
+            next(createHttpError(err.statusCode,`[Error retrieving products] - [products - POST]: ${err.message}`))
         }
     })
 }

@@ -15,20 +15,27 @@ module.exports = {
         price: {
             in: ['body'],
             isInt: { errorMessage: 'Price must be an integer' },
-            isLength: { options: { min: 1 }, errorMessage: 'Price must be at least 1 characters long' },
             exists: { errorMessage: 'Price is required' },
         },
-        quantity: {
+        categoryId: {
             in: ['body'],
-            isInt: { errorMessage: 'Quantity must be an integer' },
-            isLength: { options: { min: 1 }, errorMessage: 'Quantity must be at least 1 characters long' },
-            exists: { errorMessage: 'Quantity is required' },
+            isInt: { errorMessage: 'CategoryId must be an integer' },
+            exists: { errorMessage: 'CategoryId is required' },
         },
-        category: {
+        inventoryId: {
             in: ['body'],
-            isString: { errorMessage: 'Category must be a string' },
-            isLength: { options: { min: 2 }, errorMessage: 'Category must be at least 2 characters long' },
-            exists: { errorMessage: 'Category is required' },
+            isInt: { errorMessage: 'InventoryId must be an integer' },
+            exists: { errorMessage: 'InventoryId is required' },
+        },
+        discountId: {
+            in: ['body'],
+            isInt: { errorMessage: 'discountId must be an integer' },
+            exists: { errorMessage: 'discountId is required' },
+        },
+        rating: {
+            in: ['body'],
+            isInt: { errorMessage: 'Rating must be an integer' },
+            exists: { errorMessage: 'Rating is required' },
         },
         image: {
             in: ['body'],

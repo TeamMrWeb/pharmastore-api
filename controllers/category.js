@@ -18,5 +18,19 @@ module.exports = {
             console.log(err)
             next(createHttpError(err.statusCode,`[Error retrieving categories] - [categories - GET]: ${err.message}`))
         }
+    }),
+    createCategory: catchAsync(async (req, res, next) => {
+        try {
+            const category = await categoryService.create(req.body);
+            await category.save();
+            successResponse({
+                res,
+                message: 'Category created successfully',
+                body: { category }
+            });
+        } catch (err) {
+            console.log(err)
+            next(createHttpError(err.statusCode,`[Error creating categories] - [categories - POST]: ${err.message}`))
+        }
     })
 }
