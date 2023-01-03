@@ -8,11 +8,10 @@ module.exports = {
     authenticate: catchAsync(
         async(req, res, next) => {
             try {
-                // TODO: verification and validation
                 const auth = req.headers.authorization;
-                if(!auth) throw new Error("No token provided");
+                if(!auth) throw new errorObject({ message: 'No token provided', statusCode: 400})
                 const token = auth.split(" ")[1];
-                const payload = await tokenService.verifyToken({token, type: "access"});
+                const payload = await tokenService.verifyToken({ token, type: "access" });
                 req.payload = payload;
                 next();
             } catch (err) {

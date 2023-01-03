@@ -3,6 +3,7 @@ const moment = require('moment');
 const errorObject = require('../helpers/errorObject');
 
 const { Token } = require('../database/models');
+const ErrorObject = require('../helpers/errorObject');
 const tokens = require('../config').tokens
 
 module.exports = {
@@ -37,18 +38,18 @@ module.exports = {
     verifyToken: async ({ token, type }) => {
         try {
             const decoded = jwt.verify(token, tokens.accessToken.secret);
-            if (decoded.type !== type) throw new Error('Invalid token type');
             const tokenRecord = await Token.findOne({ where: {
                 token,
                 type,
                 userId: decoded.userId,
                 blacklisted: false
             }});
-            if (!tokenRecord) throw new Error('Token not found');
-            if (moment().isAfter(moment(tokenRecord.expiresAt))) throw new Error('Token expired');
+            if (!tokenRecord) throw new errorObject({ message: "Token not found", statusCode: 404 });
             return decoded;
         } catch (err) {
-            throw new errorObject({ statusCode: 400, message: err.message });
+            if (err.name === 'JsonWebTokenError')
+                throw new errorObject({ statusCode: 400, message: err.message });
+            throw err
         }
     },
 
