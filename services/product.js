@@ -1,4 +1,10 @@
-const { Product, product_category, product_inventory, product_discount } = require('../database/models');
+const {
+    Product,
+    product_category,
+    product_inventory,
+    product_discount,
+} = require('../database/models');
+
 const { Op } = require('sequelize');
 const errorObject = require('../helpers/errorObject');
 
@@ -24,7 +30,8 @@ module.exports = {
                     model: product_discount,
                     attributes: ['name', 'description', 'percent'],
                     where: { active: true }
-                }
+                },
+                'images'
             ],
             offset: page * limit,
             limit: limit
