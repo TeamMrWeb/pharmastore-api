@@ -8,11 +8,14 @@ const productController = require('../controllers/product');
 const categoryController = require('../controllers/category');
 const schemaValidator = require('../middlewares/schemaValidator');
 
+const { authenticate } = require('../middlewares/authenticate');
+const { isAdmin } = require('../middlewares/isAdmin');
+
 router.get('/', productController.getProducts);
-router.post('/', schemaValidator(productSchemas.create), productController.postProducts);
+router.post('/', schemaValidator(productSchemas.create), authenticate, isAdmin, productController.postProducts);
 
 router.get('/categories', categoryController.getCategories);
-router.post('/categories', schemaValidator(categorySchema.create), categoryController.createCategory);
+router.post('/categories', schemaValidator(categorySchema.create), authenticate, isAdmin, categoryController.createCategory);
 
 
 module.exports = router;
