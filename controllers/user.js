@@ -49,20 +49,26 @@ module.exports = {
         try {
             const { id } = req.params;
             if (!id) throw new errorObject({ statusCode: 400, message: 'User ID is required' });
-            const payload = {};
+            let payload = {};
             const method = req.method
-            const attributes = await userService.getAttributes()
-            attributes.forEach(attr => {
+            if (method === 'PUT')
+                payload = req.body;
+            else
+            {
+                const attributes = await userService.getAttributes();
+                attributes.forEach(attr => {
                 // If any attr is provided, update it
                 if (method === 'PATCH' && req.body[attr])
-                    payload[attr] = req.body[attr];    
-            })
+                    payload[attr] = req.body[attr]; 
+                })
+            }
             if (Object.keys(payload).length === 0) throw new errorObject({ statusCode: 400, message: 'No valid attributes provided' });
             const user = await userService.update(id, payload);
             if (!user) throw new errorObject({ statusCode: 404, message: 'User not found' });
             successResponse({
                 res,
-                message: 'User updated successfully'
+                message: 'User updated successfully',
+                body: user
             });
         } catch (err) {
             next(createHttpError(err.statusCode,`[Error updating user] - [user - ${req.method}]: ${err.message}`))
