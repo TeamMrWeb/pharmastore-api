@@ -8,7 +8,8 @@
         "db@dev": "sequelize db:drop && sequelize db:create && sequelize db:migrate && sequelize db:seed:all",
         "db@prod": "sequelize db:migrate",
         "start": "set NODE_ENV=production && node app.js",
-        "test": "set NODE_ENV=test"
+        "test:unit": "set NODE_ENV=test && mocha ./tests/unit/*.js",
+        "test:integration": "set NODE_ENV=test && mocha ./tests/integration/*.js"
     },
     "keywords": [
         "farmacia",
@@ -30,10 +31,12 @@
         "morgan": "^1.10.0",
         "mysql2": "^2.3.3",
         "sequelize": "^6.25.8",
-        "sequelize-cli": "^6.5.2",
-        "supertest": "^6.3.3"
+        "sequelize-cli": "^6.5.2"
     },
     "devDependencies": {
-        "nodemon": "^2.0.20"
+        "chai": "^4.3.7",
+        "mocha": "^10.2.0",
+        "nodemon": "^2.0.20",
+        "supertest": "^6.3.3"
     }
 }
