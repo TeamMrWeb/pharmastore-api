@@ -49,5 +49,7 @@ module.exports = {
                 } catch(err) {
             throw new errorObject({ statusCode: 404, message: err.message });
         }
-    }
+    },
+    getAttributes: async () => await Object.keys(Product.rawAttributes),
+    update: async (id, payload) => await Product.update(payload, { where: { id } })
 }
