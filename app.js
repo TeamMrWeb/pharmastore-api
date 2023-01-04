@@ -12,7 +12,7 @@ app.set('port', port);
 
 // setting up middlewares
 app.use(cors());
-app.use(logger('dev'));
+app.use(process.env.NODE_ENV.trim() === 'production' ? logger('combined') : logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
