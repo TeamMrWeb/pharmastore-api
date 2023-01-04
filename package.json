@@ -8,8 +8,8 @@
         "db@dev": "sequelize db:drop && sequelize db:create && sequelize db:migrate && sequelize db:seed:all",
         "db@prod": "sequelize db:migrate",
         "start": "set NODE_ENV=production && node app.js",
-        "test:unit": "set NODE_ENV=test && mocha ./tests/unit/*.js",
-        "test:integration": "set NODE_ENV=test && mocha ./tests/integration/*.js"
+        "test:unit": "set NODE_ENV=test && mocha ./tests/unit/*.js --exit --timeout 0",
+        "test:integration": "set NODE_ENV=test && mocha ./tests/integration/*.js --exit --timeout 0"
     },
     "keywords": [
         "farmacia",
