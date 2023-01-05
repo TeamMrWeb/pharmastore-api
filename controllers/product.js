@@ -10,8 +10,9 @@ module.exports = {
         try {
             const page = req.query.page || 0;
             const category = req.query.category || null;
+            const rating = req.query.rating || null;
             const name = req.query.name || null;
-            
+
             if (page < 0) throw new errorObject({ statusCode: 400, message: 'Page cannot be less than 0' });
             const results = await productService.get({ page, category, rating });
             successResponse({
