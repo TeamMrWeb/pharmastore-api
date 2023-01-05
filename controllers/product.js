@@ -48,5 +48,34 @@ module.exports = {
             console.log(err)
             next(createHttpError(err.statusCode,`[Error retrieving products] - [products - POST]: ${err.message}`))
         }
+    }),
+    update: catchAsync(async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            if (!id) throw new errorObject({ statusCode: 400, message: 'Product ID is required' });
+            let payload = {};
+            const method = req.method
+            if (method === 'PUT')
+                payload = req.body;
+            else
+            {
+                const attributes = await productService.getAttributes();
+                attributes.forEach(attr => {
+                // If any attr is provided, update it
+                if (method === 'PATCH' && req.body[attr])
+                    payload[attr] = req.body[attr]; 
+                })
+            }
+            if (Object.keys(payload).length === 0) throw new errorObject({ statusCode: 400, message: 'No valid attributes provided' });
+            const product = await productService.update(id, payload);
+            if (!product) throw new errorObject({ statusCode: 404, message: 'Product not found' });
+            successResponse({
+                res,
+                message: 'Product updated successfully',
+                body: product
+            });
+        } catch (err) {
+            next(createHttpError(err.statusCode,`[Error updating product] - [product - ${req.method}]: ${err.message}`))
+        }
     })
 }
