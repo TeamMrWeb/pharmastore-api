@@ -3,7 +3,6 @@ const moment = require('moment');
 const errorObject = require('../helpers/errorObject');
 
 const { Token } = require('../database/models');
-const ErrorObject = require('../helpers/errorObject');
 const tokens = require('../config').tokens
 
 module.exports = {
@@ -37,7 +36,8 @@ module.exports = {
 
     verifyToken: async ({ token, type }) => {
         try {
-            const decoded = jwt.verify(token, tokens.accessToken.secret);
+            const secret = type === 'access' ? tokens.accessToken.secret : tokens.refreshToken.secret;
+            const decoded = jwt.verify(token, secret);
             const tokenRecord = await Token.findOne({ where: {
                 token,
                 type,
@@ -51,6 +51,13 @@ module.exports = {
                 throw new errorObject({ statusCode: 400, message: err.message });
             throw err
         }
+    },
+
+    blacklistToken: async (token) => {
+        const tokenRecord = await Token.findOne({ where: { token }});
+        if (!tokenRecord) throw new errorObject({ message: "Token not found", statusCode: 404 });
+        tokenRecord.blacklisted = true;
+        await tokenRecord.save();
     },
 
     generateNeccessaryTokens: async (userId) => {

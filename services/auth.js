@@ -12,5 +12,15 @@ module.exports = {
         if (!isPasswordValid) throw new errorObject({ statusCode: 400, message: 'Invalid credentials' });
         const tokens = await tokenService.generateNeccessaryTokens(user.id);
         return { user, tokens };
+    },
+    refresh: async (accessToken, refreshToken) => {
+        const accessPayload = await tokenService.verifyToken({ token: accessToken, type: 'access' });
+        if (accessPayload.type !== 'access') throw new errorObject({ statusCode: 400, message: 'Invalid token access type' });
+        const refreshPayload = await tokenService.verifyToken({ token: refreshToken, type: 'refresh' });
+        if (refreshPayload.type !== 'refresh') throw new errorObject({ statusCode: 400, message: 'Invalid refresh token type' });
+        await tokenService.blacklistToken(refreshToken);
+        await tokenService.blacklistToken(accessToken);
+        const tokens = await tokenService.generateNeccessaryTokens(accessPayload.userId);
+        return tokens;
     }
 }
