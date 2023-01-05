@@ -13,8 +13,6 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
         User.belongsTo(models.Roles, { foreignKey: 'roleId' })
         User.hasMany(models.Token)
-
-        User.hasOne(models.order_details)
     }
     static hashPassword(password) {
         return bcrypt.hash(password, 10);
