@@ -14,8 +14,9 @@ module.exports = {
             const page = req.query.page || 0;
             const firstName = req.query.firstName || '';
             const lastName = req.query.lastName || '';
+            const deleted = req.query.deleted || false;
             if (page < 0) throw new errorObject({ statusCode: 400, message: 'Page cannot be less than 0' });
-            const results = await userService.get({ page, firstName, lastName });
+            const results = await userService.get({ page, firstName, lastName, deleted });
             successResponse({
                 res,
                 message: 'Users fetched successfully',
@@ -72,6 +73,22 @@ module.exports = {
             });
         } catch (err) {
             next(createHttpError(err.statusCode,`[Error updating user] - [user - ${req.method}]: ${err.message}`))
+        }
+    }),
+    delete: catchAsync(async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            if (!id) throw new errorObject({ statusCode: 400, message: 'User ID is required' });
+            const user = await userService.delete(id);
+            if (!user) throw new errorObject({ statusCode: 404, message: 'User not found' });
+            successResponse({
+                res,
+                message: 'User deleted successfully',
+                body: user
+            });
+        } catch (err) {
+            console.log(err)
+            next(createHttpError(err.statusCode,`[Error deleting user] - [user - DELETE]: ${err.message}`))
         }
     })
 }

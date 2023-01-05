@@ -15,4 +15,7 @@ router.get('/:id', authenticate, userController.getOne)
 router.put('/:id', schemaValidator(userSchema.update), authenticate, isAdmin, userController.update)
 router.patch('/:id', authenticate, isAdmin, userController.update)
 
+// NOTE: remove foreign key constraints before deleting a user
+router.delete('/:id', authenticate, isAdmin, userController.delete)
+
 module.exports = router;
