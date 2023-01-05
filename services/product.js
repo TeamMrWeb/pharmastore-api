@@ -13,7 +13,7 @@ const inventoryService = require('./inventory');
 const discountService = require('./discount');
 
 module.exports = {
-    get: async({ page = 0, limit = 10, category, rating }) => {
+    get: async({ page = 0, limit = 10, category, rating, name }) => {
         return await Product.findAll({
             where: rating ? { rating: { [Op.gte]: rating } } : {},
             include: [
