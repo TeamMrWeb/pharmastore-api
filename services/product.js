@@ -15,7 +15,10 @@ const discountService = require('./discount');
 module.exports = {
     get: async({ page = 0, limit = 10, category, rating, name }) => {
         return await Product.findAll({
-            where: rating ? { rating: { [Op.gte]: rating } } : {},
+            where: {
+                rating: rating ? { rating: { [Op.gte]: rating } } : {},
+                name: { [Op.like]: `%${name}%` }
+            },
             include: [
                 {
                     model: product_category, attributes: ['name', 'description'],
