@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
         User.belongsTo(models.Roles, { foreignKey: 'roleId' })
+        User.hasOne(models.user_payment);
         User.hasMany(models.Token)
     }
     static hashPassword(password) {
