@@ -13,11 +13,20 @@ module.exports = {
         const tokens = await tokenService.generateNeccessaryTokens(user.id);
         return { user, tokens };
     },
+    verifyToken: async (token, type) => {
+        try {
+            return await tokenService.verifyToken({ token, type });
+        } catch (err) {
+            throw new errorObject({ statusCode: 400, message: `Invalid ${type} token type` });
+        }
+    },
+    logout: async (accessToken, refreshToken) => {
+        await tokenService.blacklistToken(refreshToken);
+        await tokenService.blacklistToken(accessToken);
+    },
     refresh: async (accessToken, refreshToken) => {
-        const accessPayload = await tokenService.verifyToken({ token: accessToken, type: 'access' });
-        if (accessPayload.type !== 'access') throw new errorObject({ statusCode: 400, message: 'Invalid token access type' });
-        const refreshPayload = await tokenService.verifyToken({ token: refreshToken, type: 'refresh' });
-        if (refreshPayload.type !== 'refresh') throw new errorObject({ statusCode: 400, message: 'Invalid refresh token type' });
+        const accessPayload = await module.exports.verifyToken(accessToken, 'access');
+        await module.exports.verifyToken(refreshToken, 'refresh');
         await tokenService.blacklistToken(refreshToken);
         await tokenService.blacklistToken(accessToken);
         const tokens = await tokenService.generateNeccessaryTokens(accessPayload.userId);

@@ -48,5 +48,20 @@ module.exports = {
         } catch (err) {
             next(createHttpError(err.statusCode || 404,`[Error refreshing token] - [refresh - POST]: ${err.message}`))
         }
+    }),
+    logout: catchAsync(async (req, res, next) => {
+        try {
+            const refreshToken = req.body.refreshToken;
+            const accessToken = req.headers.authorization.split(' ')[1];
+            if (!refreshToken) throw new errorObject({ statusCode: 400, message: 'Refresh token is required' });
+            await authService.logout(accessToken, refreshToken);
+            successResponse({
+                res,
+                message: 'User logged out successfully',
+                body: {}
+            });
+        } catch (err) {
+            next(createHttpError(err.statusCode || 404,`[Error logging out] - [logout - POST]: ${err.message}`))
+        }
     })
 }
