@@ -8,6 +8,7 @@ module.exports = {
             name: 'Toothpaste',
             description: 'Toothpaste',
             price: 100,
+            rating: 5,
             inventoryId: 1,
             discountId: 1,
             categoryId: 1,
