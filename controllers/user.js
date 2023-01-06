@@ -27,6 +27,7 @@ module.exports = {
                 }
             });
         } catch (err) {
+            console.log(err)
             next(createHttpError(err.statusCode,`[Error retrieving users] - [users - GET]: ${err.message}`))
         }
     }),
