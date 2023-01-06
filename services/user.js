@@ -1,5 +1,7 @@
-const { User, Roles } = require('../database/models');
+const { User, Roles, user_payment } = require('../database/models');
 const { Op } = require('sequelize');
+
+console.log(user_payment, Roles)
 
 module.exports = {
     get: async({
@@ -7,14 +9,22 @@ module.exports = {
             limit = 10,
             firstName,
             lastName,
-            deleted = false
+            deleted = false,
+            role,
         }) => await User.findAll({
             limit,
             offset: page * limit,
             attributes: { exclude: ['password'] },
             include: [
-                { model: Roles, attributes: ['name'] },
-                'payment'
+                {
+                    model: Roles,
+                    attributes: ['name'],
+                    where: { name: { [Op.like]: `%${role}%`} }
+                },
+                {
+                    model: user_payment,
+                    attributes: ['payment_type', 'provider', 'account_no', 'expiry']
+                }
             ],
             where: {
                 firstName: { [Op.like]: `%${firstName}%` },

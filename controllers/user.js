@@ -15,11 +15,12 @@ module.exports = {
             const firstName = req.query.firstName || '';
             const lastName = req.query.lastName || '';
             const deleted = req.query.deleted || false;
+            const role = req.query.role || '';
             if (page < 0) throw new errorObject({ statusCode: 400, message: 'Page cannot be less than 0' });
-            const results = await userService.get({ page, firstName, lastName, deleted });
+            const results = await userService.get({ page, firstName, lastName, deleted, role });
             successResponse({
                 res,
-                message: 'Users fetched successfully',
+                message: Object.keys(results).length > 0 ? 'Users fetched successfully' : 'No users found',
                 body: {
                     users: results,
                     previous: page > 0 ? `/v1/user?page=${page - 1}` : null,
