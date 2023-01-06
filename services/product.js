@@ -16,8 +16,8 @@ module.exports = {
     get: async({ page = 0, limit = 10, category, rating, name }) => {
         return await Product.findAll({
             where: {
-                rating: rating ? { rating: { [Op.gte]: rating } } : {},
-                name: { [Op.like]: `%${name}%` }
+                name: name ? { [Op.like]: `%${name}%` } : { [Op.ne]: null },
+                rating: rating ? { [Op.gte]: rating } : { [Op.ne]: null }
             },
             include: [
                 {
