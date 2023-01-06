@@ -12,7 +12,10 @@ module.exports = {
             limit,
             offset: page * limit,
             attributes: { exclude: ['password'] },
-            include: { model: Roles, attributes: ['name'] },
+            include: [
+                { model: Roles, attributes: ['name'] },
+                'payment'
+            ],
             where: {
                 firstName: { [Op.like]: `%${firstName}%` },
                 lastName: { [Op.like]: `%${lastName}%` }
