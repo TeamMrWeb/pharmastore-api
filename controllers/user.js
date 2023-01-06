@@ -92,5 +92,24 @@ module.exports = {
             console.log(err)
             next(createHttpError(err.statusCode,`[Error deleting user] - [user - DELETE]: ${err.message}`))
         }
-    })
+    }),
+    getPayment: catchAsync(async (req, res, next) => {
+        try {
+            const { userId } = req.payload;
+            console.log(userId)
+            if (!userId) throw new errorObject({ statusCode: 400, message: 'User ID is required' });
+            const user = await userService.getOne(userId);
+            if (!user) throw new errorObject({ statusCode: 404, message: 'User not found' });
+            const payment = await userService.getPayment(userId);
+            if (!payment) throw new errorObject({ statusCode: 404, message: 'User payment not found' });
+            successResponse({
+                res,
+                message: 'User payment fetched successfully',
+                body: { payment }
+            });
+        } catch (err) {
+            console.log(err)
+            next(createHttpError(err.statusCode,`[Error retrieving user payment] - [user - GET]: ${err.message}`))
+        }
+    }),
 }
