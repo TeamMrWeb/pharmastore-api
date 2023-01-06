@@ -17,7 +17,7 @@ module.exports = {
             const results = await productService.get({ page, category, rating, name });
             successResponse({
                 res,
-                message: 'Products fetched successfully',
+                message: Object.keys(results).length > 0 ? 'Products fetched successfully' : 'No products found',
                 body: {
                     products: results,
                     previous: page > 0 ? `/v1/product?page=${page - 1}` : null,
@@ -40,7 +40,7 @@ module.exports = {
 
             successResponse({
                 res,
-                message: 'Products fetched successfully',
+                message: 'Product created successfully',
                 body: {
                     result: product
                 }
