@@ -78,5 +78,12 @@ module.exports = {
         } catch (err) {
             next(createHttpError(err.statusCode,`[Error updating product] - [product - ${req.method}]: ${err.message}`))
         }
+    }),
+    delete: catchAsync(async (req, res, next) => {
+        try {
+            // TODO: Make a delete product method.
+        } catch (err) {
+            next(createHttpError(err.statusCode, `[Error deleting product] - [product - ${req.method}]: ${err.message}`))
+        }
     })
 }
