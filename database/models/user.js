@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         User.belongsTo(models.Roles, { foreignKey: 'roleId' })
         User.hasOne(models.user_payment);
         User.hasMany(models.Token)
+        User.hasMany(models.user_cart)
     }
     static hashPassword(password) {
         return bcrypt.hash(password, 10);

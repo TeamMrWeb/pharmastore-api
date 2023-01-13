@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
         Product.belongsTo(models.product_discount, { foreignKey: 'discountId' });
         Product.belongsTo(models.product_inventory, { foreignKey: 'inventoryId' });
         // 1:N
-        Product.hasMany(models.product_image, { as: 'images' });  
+        Product.hasMany(models.product_image, { as: 'images' });
+        Product.hasOne(models.user_cart)
     }
   }
   Product.init({
