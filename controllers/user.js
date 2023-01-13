@@ -111,5 +111,5 @@ module.exports = {
             console.log(err)
             next(createHttpError(err.statusCode,`[Error retrieving user payment] - [user - GET]: ${err.message}`))
         }
-    }),
+    })
 }
