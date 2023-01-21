@@ -8,9 +8,9 @@ module.exports = {
     authenticate: catchAsync(
         async(req, res, next) => {
             try {
-                const auth = req.headers.authorization;
-                if(!auth) throw new errorObject({ message: 'No token provided', statusCode: 400})
-                const token = auth.split(" ")[1];
+                const authCookie = req.cookies['auth'];
+                if(!authCookie) throw new errorObject({ message: 'No token provided', statusCode: 400})
+                const token = authCookie.split(" ")[1];
                 const payload = await tokenService.verifyToken({ token, type: "access" });
                 req.payload = payload;
                 next();
