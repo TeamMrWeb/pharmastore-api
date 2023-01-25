@@ -11,11 +11,11 @@ const app = express();
 app.set('port', port);
 
 // setting up middlewares
+app.use(cookieParser({ httpOnly: true, secure: true }));
 app.use(cors());
 app.use(process.env.NODE_ENV.trim() === 'production' ? logger('combined') : logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 
 // setting up routes
 app.use('/v1', require('./routes'));
