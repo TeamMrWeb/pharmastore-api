@@ -10,7 +10,8 @@ module.exports = {
             try {
                 const authCookie = req.cookies['auth'];
                 if(!authCookie) throw new errorObject({ message: 'No token provided', statusCode: 400})
-                const token = authCookie.split(" ")[1];
+                const token = authCookie['token']
+                if(!token) throw new errorObject({ message: 'Corrupted cookie', statusCode: 400})
                 const payload = await tokenService.verifyToken({ token, type: "access" });
                 req.payload = payload;
                 next();
