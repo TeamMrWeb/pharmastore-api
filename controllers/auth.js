@@ -25,9 +25,8 @@ module.exports = {
     login: catchAsync(async (req, res, next) => {
         try {
             const response = await authService.login(req.body.email, req.body.password);
-            // TODO: set the cookie options in a config file
-            res.cookie('refreshToken', response.refreshToken, { httpOnly: true });
-            res.cookie('accessToken', response.accessToken, { httpOnly: true });
+            res.cookie('refreshToken', response.tokens.refresh, { httpOnly: true });
+            res.cookie('accessToken', response.tokens.access, { httpOnly: true });
             successResponse({
                 res,
                 message: 'User logged in successfully',
